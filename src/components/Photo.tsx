@@ -10,7 +10,7 @@ const Photo: React.FC<PhotoProps> = ({ photo }) => {
   return (
     <div>
       <Image
-        className="my-2"
+        className="my-2 mx-auto"
         src={photo.webformatURL}
         alt={photo.tags}
         width={photo.webformatWidth}

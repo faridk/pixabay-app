@@ -20,18 +20,22 @@ const Main: React.FC = () => {
   const [photos, setPhotos] = useState<PixabayImage[]>([]);
   const [showNoPhotosMessage, setShowNoPhotosMessage] = useState<boolean>(false);
   const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+  const [showLoadingMessage, setShowLoadingMessage] = useState<boolean>(false);
   
   useEffect(() => {
+    setShowLoadingMessage(true);
     getPhotos(query, page)
     .then(response => {
       console.log(response);
       setPhotos(response.hits);
       setPhotoCount(response.totalHits);
       setShowNoPhotosMessage(response.totalHits == 0);
+      setShowLoadingMessage(false);
     })
     .catch(error => {
       console.error('Error:', error);
       setShowErrorMessage(true);
+      setShowLoadingMessage(false);
     });
   }, [query, page]);
 
@@ -47,15 +51,18 @@ const Main: React.FC = () => {
       <SearchBar query={query} setQuery={setQuery} />
       {
         showNoPhotosMessage ?
-        <div className="flex flex-col justify-center items-center my-10">No photos found</div>
-        :
-        showErrorMessage ?
-          <div className="flex flex-col justify-center items-center my-10">Error</div>
+          <div className="flex flex-col justify-center items-center my-10">No photos found</div>
           :
-          <>
-            <PhotoList photos={photos}/>
-            <Paginator page={page} setPage={setPage} itemCount={photoCount} />
-          </>
+          showErrorMessage ?
+            <div className="flex flex-col justify-center items-center my-10">Error</div>
+            :
+            showLoadingMessage ?
+              <div className="flex flex-col justify-center items-center my-10">Loading...</div>
+              :
+              <>
+                <PhotoList photos={photos}/>
+                <Paginator page={page} setPage={setPage} itemCount={photoCount} />
+              </>
       }
     </div>
   );

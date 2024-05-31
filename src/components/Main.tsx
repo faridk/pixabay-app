@@ -10,6 +10,7 @@ const Main: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [photoCount, setPhotoCount] = useState<number>(0);
   const [photos, setPhotos] = useState<PixabayImage[]>([]);
+  const [showNoPhotosMessage, setShowNoPhotosMessage] = useState<boolean>(false);
   
   useEffect(() => {
     getPhotos(query, page)
@@ -17,6 +18,7 @@ const Main: React.FC = () => {
       console.log(response);
       setPhotos(response.hits);
       setPhotoCount(response.totalHits);
+      setShowNoPhotosMessage(response.totalHits == 0);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -26,8 +28,15 @@ const Main: React.FC = () => {
   return (
     <div className="mx-auto max-w-screen-md">
       <SearchBar query={query} setQuery={setQuery} />
-      <PhotoList photos={photos}/>
-      <Paginator page={page} setPage={setPage} itemCount={photoCount} />
+      {
+        showNoPhotosMessage ?
+        <div className="flex flex-col justify-center items-center my-10">No photos found</div>
+        :
+        <>
+          <PhotoList photos={photos}/>
+          <Paginator page={page} setPage={setPage} itemCount={photoCount} />
+        </>
+      }
     </div>
   );
 };

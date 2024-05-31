@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-async function getPhotos(query: string | null, page: number): Promise<PixabayResponse> {
+async function getPhotos(query: string | null, page: number | null): Promise<PixabayResponse> {
   const apiKey = process.env.NEXT_PUBLIC_PIXABAY_API_KEY;
   if (apiKey === undefined) {
     throw new Error("NEXT_PUBLIC_PIXABAY_API_KEY is undefined");

@@ -27,9 +27,6 @@ const Paginator: React.FC<PaginatorProps> = ({ page, setPage, itemCount }) => {
     } else {
       setPageCount(1);
     }
-    if (pageCount < page) {
-      setPage(1);
-    }
   }, [page, pageCount, setPage, itemCount]);
   
   return (

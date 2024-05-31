@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import PhotoGrid from "./PhotoList";
+import PhotoList from "./PhotoList";
 import getPhotos from "@/lib/getPhotos";
 import SearchBar from "./SearchBar";
 import Paginator from "./Paginator";
@@ -26,7 +26,7 @@ const Main: React.FC = () => {
   return (
     <div className="mx-auto max-w-screen-md">
       <SearchBar query={query} setQuery={setQuery} />
-      <PhotoGrid photos={photos}/>
+      <PhotoList photos={photos}/>
       <Paginator page={page} setPage={setPage} itemCount={photoCount} />
     </div>
   );

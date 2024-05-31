@@ -13,8 +13,8 @@ const Main: React.FC = () => {
   const [query, setQuery] = useState<string | null>(searchParams.get("q") || null);
   
   const pageString: string | null = searchParams.get("page");
-  const pageInt: number | null = pageString !== null ? parseInt(pageString, 10) : null;
-  const [page, setPage] = useState<number | null>(pageInt !== null && !isNaN(pageInt) ? pageInt : null);
+  const pageInt: number = pageString !== null ? parseInt(pageString, 10) : 1;
+  const [page, setPage] = useState<number>(!isNaN(pageInt) ? pageInt : 1);
 
   const [photoCount, setPhotoCount] = useState<number>(0);
   const [photos, setPhotos] = useState<PixabayImage[]>([]);
@@ -42,7 +42,7 @@ const Main: React.FC = () => {
   useEffect(() => {
     const newParams = new URLSearchParams(searchParams.toString());
     query !== null ? newParams.set("q", query) : newParams.delete("q");
-    page !== null ? newParams.set("page", page.toString()) : newParams.delete("page");
+    page !== 1 ? newParams.set("page", page.toString()) : newParams.delete("page");
     router.push(`/?${newParams.toString()}`);
   }, [query, page, searchParams, router]);
 

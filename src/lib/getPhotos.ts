@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
 
 async function getPhotos(query: string | null, page: number | null): Promise<PixabayResponse> {
   const apiKey = process.env.NEXT_PUBLIC_PIXABAY_API_KEY;
@@ -14,7 +14,7 @@ async function getPhotos(query: string | null, page: number | null): Promise<Pix
       }
     });
     return response.data;
-  } catch (error) {
+  } catch (error: AxiosError | Error) {
     if (axios.isAxiosError(error)) {
       console.error('Request failed:', error.message);
     } else {
